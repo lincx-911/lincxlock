@@ -1,0 +1,6 @@
+lincxlock:
+  locktype: "redislock"
+  timeout: 5
+  hosts:
+    - "172.27.47.185:6371"
+  password: "1234"

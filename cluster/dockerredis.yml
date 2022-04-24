@@ -1,0 +1,70 @@
+# 描述 Compose 文件的版本信息
+version: "1.0"
+
+# 定义服务，可以多个
+services:
+  lockredis1: # 服务名称
+    image: redis # 创建容器时所需的镜像
+    container_name: lockredis1 # 容器名称
+    restart: always # 容器总是重新启动
+    network_mode: "host" # host 网络模式
+    volumes: # 数据卷，目录挂载
+      - /usr/local/docker-redis/redis-cluster/6371/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - /usr/local/docker-redis/redis-cluster/6371/data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf # 覆盖容器启动后默认执行的命令
+
+  lockredis2:
+    image: redis
+    container_name: lockredis2
+    network_mode: "host"
+    volumes:
+      - /usr/local/docker-redis/redis-cluster/6372/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - /usr/local/docker-redis/redis-cluster/6372/data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  lockredis3:
+    image: redis
+    container_name: lockredis3
+    network_mode: "host"
+    volumes:
+      - /usr/local/docker-redis/redis-cluster/6373/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - /usr/local/docker-redis/redis-cluster/6373/data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+  lockredis4:
+      image: redis
+      container_name: lockredis4
+      network_mode: "host"
+      volumes:
+        - /usr/local/docker-redis/redis-cluster/6374/conf/redis.conf:/usr/local/etc/redis/redis.conf
+        - /usr/local/docker-redis/redis-cluster/6374/data:/data
+      command: redis-server /usr/local/etc/redis/redis.conf
+  lockredis5:
+      image: redis
+      container_name: lockredis5
+      network_mode: "host"
+      volumes:
+        - /usr/local/docker-redis/redis-cluster/6375/conf/redis.conf:/usr/local/etc/redis/redis.conf
+        - /usr/local/docker-redis/redis-cluster/6375/data:/data
+      command: redis-server /usr/local/etc/redis/redis.conf
+  lockredis6:
+      image: redis
+      container_name: lockredis6
+      network_mode: "host"
+      volumes:
+        - /usr/local/docker-redis/redis-cluster/6376/conf/redis.conf:/usr/local/etc/redis/redis.conf
+        - /usr/local/docker-redis/redis-cluster/6376/data:/data
+      command: redis-server /usr/local/etc/redis/redis.conf
+
+
+
+#这里是redis集群启动命令
+#redis-cli -a 1234 --cluster create 172.27.47.185:6371 172.27.47.185:6372 172.27.47.185:6373 172.27.47.185:6374 172.27.47.185:6375 172.27.47.185:6376 --cluster-replicas 1
+
+
+# for port in `seq 6371 6376`; do \
+#   rm -rf ${port} \
+#   && mkdir -p ${port}/conf \
+#   && PORT=${port} envsubst < redis-cluster.tmpl > ${port}/conf/redis.conf \
+#   && mkdir -p ${port}/data;\
+# done
+
